@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 
-const Estoque = () => {
+const Cardapio = () => {
   const [itens, setItens] = useState([]);
 
   useEffect(() => {
-    api.get('estoque/')
+    api.get('menu/') // rota Django: /api/menu/
       .then(response => {
         setItens(response.data);
       })
       .catch(error => {
-        console.error('Erro ao buscar estoque:', error);
+        console.error('Erro ao buscar cardápio:', error);
       });
   }, []);
 
   return (
     <div>
-      <h2>Controle de Estoque</h2>
+      <h2>Cardápio</h2>
       <ul>
-        {itens.map(item => (
+        {itens.map((item) => (
           <li key={item.id}>
-            <strong>{item.nome}</strong> – {item.quantidade} {item.unidade} ({item.status})
+            <strong>{item.nome}</strong> - R$ {item.preco} <br />
+            <img src={item.imagem} alt={item.nome} width="100" />
           </li>
         ))}
       </ul>
@@ -28,4 +29,4 @@ const Estoque = () => {
   );
 };
 
-export default Estoque;
+export default Cardapio;

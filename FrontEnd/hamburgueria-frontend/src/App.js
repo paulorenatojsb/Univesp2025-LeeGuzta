@@ -13,10 +13,10 @@ function App() {
       <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-red-100 to-orange-200 flex flex-col items-center p-8">
         <header className="text-center max-w-xl mb-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">
-            Lee Guzta – Sistema Integrado
+            Lee Guzta – Sistema de Gestão
           </h1>
           <p className="text-lg sm:text-xl text-gray-700">
-            Gerenciamento completo de pedidos, reservas, estoque e cardápio.
+            Uma solução completa para o seu estabelecimento!
           </p>
         </header>
 

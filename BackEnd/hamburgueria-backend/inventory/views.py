@@ -3,5 +3,5 @@ from .models import EstoqueItem
 from .serializers import EstoqueItemSerializer
 
 class EstoqueItemViewSet(viewsets.ModelViewSet):
-    queryset = EstoqueItem.objects.all().order_by('nome')
+    queryset = EstoqueItem.objects.all()
     serializer_class = EstoqueItemSerializer
