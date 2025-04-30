@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-// IMPORTANTE: aqui, o arquivo com @tailwind base/components/utilities
+// IMPORTANTE: aqui só index.css
 import './index.css';
 
 import App from './App';
