@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'inventory',
 ]
 
+AUTH_USER_MODEL = 'users.Usuario'
+
 MIDDLEWARE = [
     # CORS antes de qualquer outro middleware que lide com requisições
     'corsheaders.middleware.CorsMiddleware',
