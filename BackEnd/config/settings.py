@@ -1,3 +1,5 @@
+import pymysql
+pymysql.install_as_MySQLdb()
 import os
 from pathlib import Path
 
@@ -71,6 +73,9 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+import sys
+print("⚠️ BANCO ATUAL:", DATABASES['default'], file=sys.stderr)
 
 # Validação de senha
 AUTH_PASSWORD_VALIDATORS = [
