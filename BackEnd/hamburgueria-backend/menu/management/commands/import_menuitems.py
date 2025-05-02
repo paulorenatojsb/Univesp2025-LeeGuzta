@@ -1,13 +1,13 @@
 import pandas as pd
 from django.core.management.base import BaseCommand
-from .models import MenuItem # ajuste conforme o nome do seu app
+from menu.models import MenuItem # ajuste conforme o nome do seu app
 from django.utils.timezone import now
 
 class Command(BaseCommand):
     help = "Importa itens do menu a partir de um arquivo Excel"
 
     def handle(self, *args, **kwargs):
-        file_path = 'BackEnd\hamburgueria-backend\BancoDeDados\files\menuitem.xlsx'
+        file_path = 'BancoDeDados/files/menuitem.xlsx'
         df = pd.read_excel(file_path)
 
         for _, row in df.iterrows():

@@ -5,7 +5,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rrk%*ymxf_eo)9!hwm!)9sv^ko2k25ib!9^$2w^x$sdbb8hjrx'
 
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -16,16 +15,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',  # 👈 Adicionado aqui
     'menu',
     'inventory',
     'users',
     'configuracao',
     'mesas',
+    'BancoDeDados',
 ]
 
-AUTH_USER_MODEL = 'users.Usuario'
-
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # 👈 Deve ser o primeiro middleware personalizado
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,7 +54,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Configuração do banco de dados MySQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -65,6 +64,8 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+AUTH_USER_MODEL = 'users.Usuario'
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -80,3 +81,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ✅ CORS
+CORS_ALLOW_ALL_ORIGINS = True  # ou use CORS_ALLOWED_ORIGINS para limitar acesso
