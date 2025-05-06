@@ -1,97 +1,96 @@
 import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
 import axios from 'axios';
+import './NovoPedido.css';
 
 const NovoPedido = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [quantities, setQuantities] = useState({});
+  const [pedido, setPedido] = useState([]);
   const [mesa, setMesa] = useState('');
+  const [mensagem, setMensagem] = useState('');
 
   useEffect(() => {
-    // Buscar itens do cardápio
-    axios.get('http://localhost:8000/api/menu/items/')
-      .then(response => {
-        const options = response.data.map(item => ({
-          value: item.id,
-          label: item.nome
-        }));
-        setMenuItems(options);
-      })
-      .catch(error => {
-        console.error('Erro ao buscar itens do cardápio:', error);
-      });
+    axios.get('http://localhost:8000/api/menu/itens/')
+      .then(response => setMenuItems(response.data))
+      .catch(error => console.error('Erro ao buscar cardápio:', error));
   }, []);
 
-  const handleItemChange = selectedOptions => {
-    setSelectedItems(selectedOptions || []);
+  const adicionarItem = (itemId) => {
+    const jaAdicionado = pedido.find(p => p.item === itemId);
+    if (!jaAdicionado) {
+      setPedido([...pedido, { item: itemId, quantidade: 1 }]);
+    }
   };
 
-  const handleQuantityChange = (itemId, quantity) => {
-    setQuantities(prev => ({
-      ...prev,
-      [itemId]: quantity
-    }));
+  const atualizarQuantidade = (itemId, quantidade) => {
+    setPedido(pedido.map(p =>
+      p.item === itemId ? { ...p, quantidade: Number(quantidade) } : p
+    ));
   };
 
-  const handleSubmit = e => {
+  const removerItem = (itemId) => {
+    setPedido(pedido.filter(p => p.item !== itemId));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const pedido = {
-      mesa,
-      itens: selectedItems.map(item => ({
-        id: item.value,
-        quantidade: quantities[item.value] || 1
-      }))
-    };
-    // Enviar pedido para o backend
-    axios.post('http://localhost:8000/api/pedidos/', pedido)
-      .then(response => {
-        console.log('Pedido criado com sucesso:', response.data);
-        // Resetar formulário
-        setMesa('');
-        setSelectedItems([]);
-        setQuantities({});
-      })
-      .catch(error => {
-        console.error('Erro ao criar pedido:', error);
+    try {
+      const response = await axios.post('http://localhost:8000/api/pedidos/', {
+        mesa,
+        itens: pedido,
       });
+      setMensagem('Pedido criado com sucesso!');
+      setMesa('');
+      setPedido([]);
+    } catch (error) {
+      setMensagem('Erro ao criar pedido.');
+      console.error(error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Novo Pedido</h2>
-      <div>
-        <label>Mesa:</label>
-        <input
-          type="text"
-          value={mesa}
-          onChange={e => setMesa(e.target.value)}
-          required
-        />
+    <div className="novo-pedido-container">
+      <h2>Criar Novo Pedido</h2>
+
+      <label>Mesa:</label>
+      <input
+        type="text"
+        value={mesa}
+        onChange={e => setMesa(e.target.value)}
+        placeholder="Digite o número da mesa"
+        required
+      />
+
+      <h3>Selecione Itens:</h3>
+      <div className="itens-cardapio">
+        {menuItems.map(item => (
+          <button key={item.id} onClick={() => adicionarItem(item.id)}>
+            {item.nome}
+          </button>
+        ))}
       </div>
-      <div>
-        <label>Itens do Cardápio:</label>
-        <Select
-          options={menuItems}
-          isMulti
-          onChange={handleItemChange}
-          value={selectedItems}
-        />
-      </div>
-      {selectedItems.map(item => (
-        <div key={item.value}>
-          <label>{item.label} - Quantidade:</label>
-          <input
-            type="number"
-            min="1"
-            value={quantities[item.value] || 1}
-            onChange={e => handleQuantityChange(item.value, parseInt(e.target.value))}
-            required
-          />
-        </div>
-      ))}
-      <button type="submit">Criar Pedido</button>
-    </form>
+
+      <h3>Itens Selecionados:</h3>
+      {pedido.map(p => {
+        const item = menuItems.find(m => m.id === p.item);
+        return (
+          <div key={p.item}>
+            <strong>{item?.nome}</strong>
+            <input
+              type="number"
+              min="1"
+              value={p.quantidade}
+              onChange={e => atualizarQuantidade(p.item, e.target.value)}
+            />
+            <button type="button" onClick={() => removerItem(p.item)}>Remover</button>
+          </div>
+        );
+      })}
+
+      <button type="submit" className="enviar-btn" onClick={handleSubmit}>
+        Enviar Pedido
+      </button>
+      {mensagem && <div className="mensagem">{mensagem}</div>}
+    </div>
   );
 };
 

@@ -15,7 +15,7 @@ const Cardapio = () => {
   const [grupos, setGrupos] = useState({});
 
   useEffect(() => {
-    api.get('/menu/cardapio/')
+    api.get('cardapio/cardapio/')
       .then(response => {
         setGrupos(agruparPorCategoria(response.data));
       })
