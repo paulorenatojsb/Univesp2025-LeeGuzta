@@ -1,0 +1,46 @@
+.novo-pedido-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .novo-pedido-container h2,
+  .novo-pedido-container h3 {
+    margin-top: 20px;
+  }
+  
+  .novo-pedido-container select,
+  .novo-pedido-container button {
+    margin-top: 10px;
+    display: block;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .itens-cardapio {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    margin-top: 10px;
+  }
+  
+  .itens-cardapio button {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .enviar-btn {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .mensagem {
+    margin-top: 10px;
+    color: blue;
+  }

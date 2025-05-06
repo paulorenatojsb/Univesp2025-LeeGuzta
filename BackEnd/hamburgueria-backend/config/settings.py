@@ -15,12 +15,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',  # 👈 Adicionado aqui
+    'corsheaders',
     'menu',
     'inventory',
     'users',
+    'pedidos',
     'configuracao',
     'mesas',
+    'novospedidos',
     'BancoDeDados',
 ]
 
