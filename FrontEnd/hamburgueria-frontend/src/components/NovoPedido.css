@@ -1,46 +1,94 @@
-.novo-pedido-container {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 25px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-  }
-  
-  .novo-pedido-container h2,
-  .novo-pedido-container h3 {
-    margin-top: 20px;
-  }
-  
-  .novo-pedido-container select,
-  .novo-pedido-container button {
-    margin-top: 10px;
-    display: block;
-    padding: 10px;
-    width: 100%;
-  }
-  
-  .itens-cardapio {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    margin-top: 10px;
-  }
-  
-  .itens-cardapio button {
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    cursor: pointer;
-  }
-  
-  .enviar-btn {
-    background-color: #28a745;
-    color: white;
-    font-weight: bold;
-    margin-top: 20px;
-  }
-  
-  .mensagem {
-    margin-top: 10px;
-    color: blue;
-  }
+.pedido-container {
+  max-width: 960px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fffefc;
+  border-radius: 8px;
+}
+
+.pedido-container h2 {
+  margin-bottom: 10px;
+}
+
+input {
+  margin-left: 10px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cardapio-blocos {
+  margin-top: 20px;
+}
+
+.categoria-bloco {
+  margin-bottom: 30px;
+}
+
+.categoria-bloco h3 {
+  font-size: 1.3em;
+  margin-bottom: 10px;
+  border-left: 5px solid #FF6F61;
+  padding-left: 10px;
+}
+
+.grid-itens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.item-card {
+  background: #f9f9f9;
+  border: 2px solid #ddd;
+  padding: 10px;
+  border-radius: 6px;
+  width: 140px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.item-card:hover {
+  border-color: #aaa;
+}
+
+.item-card.selecionado {
+  border-color: #28a745;
+  background: #eaffea;
+}
+
+.item-card h4 {
+  margin: 5px 0;
+  font-size: 1em;
+}
+
+.item-card span {
+  color: #444;
+}
+
+.resumo-pedido {
+  margin-top: 30px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.resumo-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.resumo-item button {
+  margin: 0 5px;
+}
+
+.enviar-pedido {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

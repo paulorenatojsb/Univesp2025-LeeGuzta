@@ -9,9 +9,18 @@ const NovoPedido = () => {
   const [mensagem, setMensagem] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/menu/itens/')
-      .then(response => setMenuItems(response.data))
-      .catch(error => console.error('Erro ao buscar cardápio:', error));
+    axios.get('/api/cardapio/cardapio/')
+      .then(res => {
+        console.log('Dados do cardápio recebidos:', res.data); // Verifique o formato dos dados
+        const agrupado = res.data.reduce((acc, item) => {
+          const categoria = item.categoria || 'OUTROS';
+          if (!acc[categoria]) acc[categoria] = [];
+          acc[categoria].push(item);
+          return acc;
+        }, {});
+        setMenuItems(agrupado);
+      })
+      .catch(err => console.error('Erro ao carregar o cardápio:', err));
   }, []);
 
   const adicionarItem = (itemId) => {
@@ -62,12 +71,17 @@ const NovoPedido = () => {
 
       <h3>Selecione Itens:</h3>
       <div className="itens-cardapio">
-        {menuItems.map(item => (
-          <button key={item.id} onClick={() => adicionarItem(item.id)}>
-            {item.nome}
-          </button>
-        ))}
-      </div>
+  {Object.entries(menuItems).map(([categoria, itens]) => (
+    <div key={categoria}>
+      <h4>{categoria}</h4>
+      {itens.map(item => (
+        <button key={item.id} onClick={() => adicionarItem(item.id)}>
+          {item.nome}
+        </button>
+      ))}
+    </div>
+  ))}
+</div>
 
       <h3>Itens Selecionados:</h3>
       {pedido.map(p => {
