@@ -1,94 +1,66 @@
-.pedido-container {
-  max-width: 960px;
-  margin: auto;
+.novo-pedido-container {
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #fffefc;
+  background-color: #f9f9f9;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.pedido-container h2 {
-  margin-bottom: 10px;
+.novo-pedido-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-input {
-  margin-left: 10px;
-  padding: 6px;
-  border: 1px solid #ccc;
+.novo-pedido-container label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.novo-pedido-container select,
+.novo-pedido-container input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.cardapio-blocos {
-  margin-top: 20px;
-}
-
-.categoria-bloco {
-  margin-bottom: 30px;
-}
-
-.categoria-bloco h3 {
-  font-size: 1.3em;
-  margin-bottom: 10px;
-  border-left: 5px solid #FF6F61;
-  padding-left: 10px;
-}
-
-.grid-itens {
+.pedido-item {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.item-card {
-  background: #f9f9f9;
-  border: 2px solid #ddd;
-  padding: 10px;
-  border-radius: 6px;
-  width: 140px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.item-card:hover {
-  border-color: #aaa;
-}
-
-.item-card.selecionado {
-  border-color: #28a745;
-  background: #eaffea;
-}
-
-.item-card h4 {
-  margin: 5px 0;
-  font-size: 1em;
-}
-
-.item-card span {
-  color: #444;
-}
-
-.resumo-pedido {
-  margin-top: 30px;
-  border-top: 1px solid #ddd;
-  padding-top: 20px;
-}
-
-.resumo-item {
-  display: flex;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
-  align-items: center;
 }
 
-.resumo-item button {
-  margin: 0 5px;
+.pedido-item input {
+  width: 60px; /* Define a largura do campo */
+  padding: 5px; /* Ajusta o espaçamento interno */
+  font-size: 14px; /* Ajusta o tamanho da fonte */
+  text-align: center; /* Centraliza o texto */
+  border: 1px solid #ddd; /* Define a borda */
+  border-radius: 4px; /* Bordas arredondadas */
 }
 
-.enviar-pedido {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 16px;
+.enviar-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
+  font-size: 1rem;
   cursor: pointer;
+}
+
+.enviar-btn:hover {
+  background-color: #0056b3;
+}
+
+.mensagem {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: green;
 }

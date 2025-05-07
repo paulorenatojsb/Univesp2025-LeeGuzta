@@ -4,25 +4,36 @@ import './NovoPedido.css';
 
 const NovoPedido = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [pedido, setPedido] = useState([]);
+  const [mesas, setMesas] = useState([]);
   const [mesa, setMesa] = useState('');
+  const [pedido, setPedido] = useState([]);
   const [mensagem, setMensagem] = useState('');
 
-  // Carregar itens do cardápio do backend
+  const baseURL = 'http://localhost:8000';
+
+  const categoriasOrdenadas = [
+    'PORÇOES',
+    'CLASSICOS DE CARNE',
+    'CLASSICOS DE RÚCULA',
+    'CLASSICOS DE PICANHA',
+    'CLASSICOS DE COSTELA',
+    'CLASSICOS DE FRANGO',
+    'CLASSICOS DE CALABRESA',
+    'CLASSICOS RECHEADOS',
+    'ESPECIAIS',
+    'SEM CARNE',
+    'EXTRAS',
+    'BEBIDAS',
+    'CERVEJA',
+    'VINHOS',
+    'PARA DEPOIS',
+  ];
+
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await axios.get('/api/cardapio/cardapio/');
-        console.log('Dados do cardápio recebidos:', response.data);
-
-        // Agrupar itens por categoria
-        const agrupado = response.data.reduce((acc, item) => {
-          const categoria = item.categoria || 'OUTROS';
-          if (!acc[categoria]) acc[categoria] = [];
-          acc[categoria].push(item);
-          return acc;
-        }, {});
-        setMenuItems(agrupado);
+        const response = await axios.get(`${baseURL}/api/cardapio/cardapio/`);
+        setMenuItems(response.data);
       } catch (error) {
         console.error('Erro ao carregar o cardápio:', error);
       }
@@ -31,7 +42,19 @@ const NovoPedido = () => {
     fetchMenuItems();
   }, []);
 
-  // Adicionar item ao pedido
+  useEffect(() => {
+    const fetchMesas = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/api/mesas/mesas/`);
+        setMesas(response.data);
+      } catch (error) {
+        console.error('Erro ao carregar mesas:', error);
+      }
+    };
+
+    fetchMesas();
+  }, []);
+
   const adicionarItem = (itemId) => {
     const jaAdicionado = pedido.find((p) => p.item === itemId);
     if (!jaAdicionado) {
@@ -39,7 +62,6 @@ const NovoPedido = () => {
     }
   };
 
-  // Atualizar quantidade de um item no pedido
   const atualizarQuantidade = (itemId, quantidade) => {
     setPedido(
       pedido.map((p) =>
@@ -48,16 +70,14 @@ const NovoPedido = () => {
     );
   };
 
-  // Remover item do pedido
   const removerItem = (itemId) => {
     setPedido(pedido.filter((p) => p.item !== itemId));
   };
 
-  // Enviar pedido para o backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/api/pedidos/', {
+      await axios.post(`${baseURL}/api/pedidos/`, {
         mesa,
         itens: pedido,
       });
@@ -70,63 +90,73 @@ const NovoPedido = () => {
     }
   };
 
+  const itensOrdenados = categoriasOrdenadas.flatMap((categoria) =>
+    menuItems.filter((item) => item.categoria === categoria)
+  );
+
   return (
     <div className="novo-pedido-container">
       <h2>Criar Novo Pedido</h2>
 
-      {/* Campo para número da mesa */}
-      <label>Mesa:</label>
-      <input
-        type="text"
-        value={mesa}
-        onChange={(e) => setMesa(e.target.value)}
-        placeholder="Digite o número da mesa"
-        required
-      />
-
-      {/* Seleção de itens do cardápio */}
-      <h3>Selecione Itens:</h3>
-      <div className="itens-cardapio">
-        {Object.entries(menuItems).map(([categoria, itens]) => (
-          <div key={categoria}>
-            <h4>{categoria}</h4>
-            {itens.map((item) => (
-              <button key={item.id} onClick={() => adicionarItem(item.id)}>
-                {item.nome}
-              </button>
-            ))}
-          </div>
-        ))}
+      <div className="mesa-container">
+        <label htmlFor="mesa">Selecione a Mesa:</label>
+        <select
+          id="mesa"
+          value={mesa}
+          onChange={(e) => setMesa(e.target.value)}
+          required
+        >
+          <option value="">Selecione uma mesa</option>
+          {mesas.map((m) => (
+            <option key={m.id} value={m.id}>
+              {m.nome}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* Lista de itens selecionados */}
-      <h3>Itens Selecionados:</h3>
-      {pedido.map((p) => {
-        const item = Object.values(menuItems)
-          .flat()
-          .find((m) => m.id === p.item);
-        return (
-          <div key={p.item}>
-            <strong>{item?.nome}</strong>
-            <input
-              type="number"
-              min="1"
-              value={p.quantidade}
-              onChange={(e) => atualizarQuantidade(p.item, e.target.value)}
-            />
-            <button type="button" onClick={() => removerItem(p.item)}>
-              Remover
-            </button>
-          </div>
-        );
-      })}
+      <div className="cardapio-container">
+        <h3>Selecione Itens:</h3>
+        <select
+          onChange={(e) => adicionarItem(Number(e.target.value))}
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Selecione um item
+          </option>
+          {itensOrdenados.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.categoria} - {item.nome}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      {/* Botão para enviar o pedido */}
+      <div className="pedido-container">
+        <h3>Itens Selecionados:</h3>
+        {pedido.map((p) => {
+          const item = menuItems.find((m) => m.id === p.item);
+          return (
+            <div key={p.item} className="pedido-item">
+              <strong>{item?.nome}</strong>
+              <input
+                type="number"
+                min="1"
+                value={p.quantidade}
+                onChange={(e) => atualizarQuantidade(p.item, e.target.value)}
+              />
+              <button type="button" onClick={() => removerItem(p.item)}>
+                Remover
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
       <button type="submit" className="enviar-btn" onClick={handleSubmit}>
         Enviar Pedido
       </button>
 
-      {/* Mensagem de sucesso ou erro */}
       {mensagem && <div className="mensagem">{mensagem}</div>}
     </div>
   );
