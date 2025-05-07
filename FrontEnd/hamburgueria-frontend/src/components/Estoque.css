@@ -1,52 +1,78 @@
-.estoque-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .filtros {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .estoque-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 16px;
-  }
-  
-  .estoque-card {
-    padding: 12px;
-    border-radius: 8px;
-    background: #f3f3f3;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    text-align: center;
-  }
-  
-  .estoque-card .estoque-nome {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 6px;
-  }
-  
-  .estoque-card .estoque-quantidade {
-    font-size: 14px;
-    margin-bottom: 6px;
-  }
-  
-  .estoque-card .estoque-status {
-    font-size: 13px;
-    font-weight: bold;
-  }
-  
-  .verde {
-    border-left: 5px solid #4CAF50;
-  }
-  
-  .amarelo {
-    border-left: 5px solid #FFC107;
-  }
-  
-  .vermelho {
-    border-left: 5px solid #F44336;
-  }
+.filtro-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.filtro-container label {
+  font-weight: bold;
+}
+
+.filtro-container select {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.estoque-titulo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  color: #444;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.estoque-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.estoque-item.ok {
+  border-left: 5px solid green;
+}
+
+.estoque-item.alto {
+  border-left: 5px solid yellow;
+}
+
+.estoque-item.baixo {
+  border-left: 5px solid red;
+}
+
+.item-nome {
+  font-weight: bold;
+}
+
+.item-quantidade {
+  color: #555;
+}
+
+.atualizar-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.atualizar-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.atualizar-btn:hover {
+  background-color: #0056b3;
+}

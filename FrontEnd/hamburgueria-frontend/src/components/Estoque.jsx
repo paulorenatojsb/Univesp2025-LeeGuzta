@@ -3,62 +3,86 @@ import api from '../services/api';
 import './Estoque.css';
 
 const Estoque = () => {
-  const [itens, setItens] = useState([]);
-  const [filtro, setFiltro] = useState('Todos');
+  const [estoque, setEstoque] = useState([]);
+  const [filtroStatus, setFiltroStatus] = useState('Todos');
+  const [filtroCategoria, setFiltroCategoria] = useState('Todas');
 
-  const buscarEstoque = () => {
-    api.get('estoque/')
-      .then(response => setItens(response.data))
-      .catch(error => console.error('Erro ao buscar estoque:', error));
+  const buscarEstoque = async () => {
+    try {
+      const response = await api.get('/api/estoque/');
+      console.log('Dados do estoque recebidos:', response.data);
+      setEstoque(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar estoque:', error);
+    }
   };
 
   useEffect(() => {
     buscarEstoque();
   }, []);
 
-  const filtrarItens = (status) => {
-    setFiltro(status);
-  };
-
-  const statusColor = (status) => {
-    switch (status) {
-      case 'Baixo':
-        return 'vermelho';
-      case 'Alto':
-        return 'amarelo';
-      case 'OK':
-      default:
-        return 'verde';
-    }
-  };
-
-  const itensFiltrados = filtro === 'Todos'
-    ? itens
-    : itens.filter(item => item.status === filtro);
+  const itensFiltrados = estoque.filter((item) => {
+    const statusMatch = filtroStatus === 'Todos' || item.status === filtroStatus;
+    const categoriaMatch = filtroCategoria === 'Todas' || item.categoria === filtroCategoria;
+    return statusMatch && categoriaMatch;
+  });
 
   return (
     <div className="estoque-container">
-      <h2>Controle de Estoque</h2>
+      <h1 className="estoque-titulo">ESTOQUE</h1>
 
-      <div className="filtros">
-        <select onChange={e => filtrarItens(e.target.value)} value={filtro}>
+      {/* Botão Atualizar */}
+      <div className="atualizar-container">
+        <button className="atualizar-btn" onClick={buscarEstoque}>
+          Atualizar Estoque
+        </button>
+      </div>
+
+      {/* Filtros */}
+      <div className="filtro-container">
+        <label htmlFor="filtro-status">Filtrar por Status:</label>
+        <select
+          id="filtro-status"
+          value={filtroStatus}
+          onChange={(e) => setFiltroStatus(e.target.value)}
+        >
           <option value="Todos">Todos</option>
           <option value="OK">OK</option>
-          <option value="Baixo">Baixo</option>
-          <option value="Alto">Alto</option>
+          <option value="ALTO">ALTO</option>
+          <option value="BAIXO">BAIXO</option>
         </select>
-        <button onClick={buscarEstoque}>🔄 Atualizar</button>
+
+        <label htmlFor="filtro-categoria">Filtrar por Categoria:</label>
+        <select
+          id="filtro-categoria"
+          value={filtroCategoria}
+          onChange={(e) => setFiltroCategoria(e.target.value)}
+        >
+          <option value="Todas">Todas</option>
+          {estoque
+            .map((item) => item.categoria)
+            .filter((categoria, index, self) => self.indexOf(categoria) === index) // Remove duplicados
+            .map((categoria) => (
+              <option key={categoria} value={categoria}>
+                {categoria}
+              </option>
+            ))}
+        </select>
       </div>
 
-      <div className="estoque-grid">
-        {itensFiltrados.map(item => (
-          <div key={item.id} className={`estoque-card ${statusColor(item.status)}`}>
-            <div className="estoque-nome">{item.nome}</div>
-            <div className="estoque-quantidade">{item.quantidade} {item.unidade}</div>
-            <div className="estoque-status">{item.status}</div>
-          </div>
-        ))}
-      </div>
+      {/* Lista de Itens */}
+      {itensFiltrados.length > 0 ? (
+        <ul>
+          {itensFiltrados.map((item) => (
+            <li key={item.id} className={`estoque-item ${item.status.toLowerCase()}`}>
+              <span className="item-nome">{item.nome}</span>
+              <span className="item-quantidade">Quantidade: {item.quantidade}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Carregando estoque...</p>
+      )}
     </div>
   );
 };
