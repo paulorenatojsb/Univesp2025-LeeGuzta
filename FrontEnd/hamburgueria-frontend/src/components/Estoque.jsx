@@ -1,30 +1,89 @@
 import React, { useEffect, useState } from 'react';
-import api from '../services/api_reversa';
+import api from '../services/api';
+import './Estoque.css';
 
 const Estoque = () => {
-  const [itens, setItens] = useState([]);
+  const [estoque, setEstoque] = useState([]);
+  const [filtroStatus, setFiltroStatus] = useState('Todos');
+  const [filtroCategoria, setFiltroCategoria] = useState('Todas');
+
+  const buscarEstoque = async () => {
+    try {
+      const response = await api.get('/api/estoque/');
+      console.log('Dados do estoque recebidos:', response.data);
+      setEstoque(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar estoque:', error);
+    }
+  };
 
   useEffect(() => {
-    api.get('estoque/')
-      .then(response => {
-        setItens(response.data);
-      })
-      .catch(error => {
-        console.error('Erro ao buscar estoque:', error);
-      });
+    buscarEstoque();
   }, []);
 
+  const itensFiltrados = estoque.filter((item) => {
+    const statusMatch = filtroStatus === 'Todos' || item.status === filtroStatus;
+    const categoriaMatch = filtroCategoria === 'Todas' || item.categoria === filtroCategoria;
+    return statusMatch && categoriaMatch;
+  });
+
   return (
-    <div>
-      <h2>Controle de Estoque</h2>
-      <ul>
-        {itens.map(item => (
-          <li key={item.id}>
-            <strong>{item.nome}</strong> – {item.quantidade} {item.unidade} ({item.status})
-          </li>
+    <div className="estoque-container">
+  <h1 className="estoque-titulo">ESTOQUE</h1>
+
+  {/* Botão Atualizar */}
+  <div className="atualizar-container">
+    <button className="atualizar-btn" onClick={buscarEstoque}>
+      Atualizar Estoque
+    </button>
+  </div>
+
+  {/* Filtros */}
+  <div className="filtro-container">
+    <label htmlFor="filtro-status">Filtrar por Status:</label>
+    <select
+      id="filtro-status"
+      value={filtroStatus}
+      onChange={(e) => setFiltroStatus(e.target.value)}
+    >
+      <option value="Todos">Todos</option>
+      <option value="OK">OK</option>
+      <option value="ALTO">ALTO</option>
+      <option value="BAIXO">BAIXO</option>
+    </select>
+
+    <label htmlFor="filtro-categoria">Filtrar por Categoria:</label>
+    <select
+      id="filtro-categoria"
+      value={filtroCategoria}
+      onChange={(e) => setFiltroCategoria(e.target.value)}
+    >
+      <option value="Todas">Todas</option>
+      {estoque
+        .map((item) => item.categoria)
+        .filter((categoria, index, self) => self.indexOf(categoria) === index) // Remove duplicados
+        .map((categoria) => (
+          <option key={categoria} value={categoria}>
+            {categoria}
+          </option>
         ))}
-      </ul>
-    </div>
+    </select>
+  </div>
+
+  {/* Lista de Itens */}
+  {itensFiltrados.length > 0 ? (
+    <ul>
+      {itensFiltrados.map((item) => (
+        <li key={item.id} className={`estoque-item ${item.status.toLowerCase()}`}>
+          <span className="item-nome">{item.nome}</span>
+          <span className="item-quantidade">Quantidade: {item.quantidade}</span>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>Carregando estoque...</p>
+  )}
+</div>
   );
 };
 

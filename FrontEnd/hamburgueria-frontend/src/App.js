@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Pedidos from './components/Pedidos';
+import NovoPedido from './components/NovoPedido';
 import Reservas from './components/Reservas';
 import Estoque from './components/Estoque';
 import Cardapio from './components/Cardapio';
@@ -24,6 +25,9 @@ function App() {
           <Link to="/pedidos" className="bg-white shadow-md rounded p-4 text-center hover:bg-red-100">
             <h2 className="font-bold text-red-600">Pedidos</h2>
           </Link>
+          <Link to="/criar-pedido" className="bg-white shadow-md rounded p-4 text-center hover:bg-orange-100">
+            <h2 className="font-bold text-orange-600">Novo Pedido</h2>
+          </Link>
           <Link to="/reservas" className="bg-white shadow-md rounded p-4 text-center hover:bg-yellow-100">
             <h2 className="font-bold text-yellow-600">Reservas</h2>
           </Link>
@@ -44,6 +48,7 @@ function App() {
         <main className="w-full">
           <Routes>
             <Route path="/pedidos" element={<Pedidos />} />
+            <Route path="/criar-pedido" element={<NovoPedido />} />
             <Route path="/reservas" element={<Reservas />} />
             <Route path="/estoque" element={<Estoque />} />
             <Route path="/cardapio" element={<Cardapio />} />

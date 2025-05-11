@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../services/api_reversa';
+import api from '../services/api';
 
 const Caixa = () => {
   const [relatorio, setRelatorio] = useState([]);

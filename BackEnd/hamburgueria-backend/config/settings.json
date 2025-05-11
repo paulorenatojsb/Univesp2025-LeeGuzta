@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+      "./BackEnd/hamburgueria-backend"  // Caminho até onde está o manage.py
+    ]
+  }

@@ -1,0 +1,90 @@
+.filtro-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.filtro-container label {
+  font-weight: bold;
+}
+
+.filtro-container select {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.estoque-titulo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  color: #444;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.estoque-item.ok {
+  border-left: 5px solid green;
+}
+
+.estoque-item.alto {
+  border-left: 5px solid yellow;
+}
+
+.estoque-item.baixo {
+  border-left: 5px solid red;
+}
+
+.estoque-container {
+  max-width: 800px; /* Define uma largura máxima */
+  margin: 0 auto; /* Centraliza o contêiner */
+  padding: 20px; /* Adiciona espaçamento interno */
+  background-color: #f9f9f9; /* Fundo branco mais claro */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra leve */
+}
+
+.estoque-item {
+  display: flex;
+  justify-content: flex-start; /* Alinha os elementos à esquerda */
+  align-items: center;
+  padding: 8px 12px; /* Reduz o fundo branco */
+  margin-bottom: 8px; /* Ajusta o espaçamento entre os itens */
+  background-color: #f9f9f9; /* Fundo branco mais claro */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  gap: 10px; /* Aumenta um pouco o espaçamento entre os elementos */
+}
+
+.item-nome {
+  font-weight: bold;
+  margin-right: 10px; /* Aumenta a distância entre o nome e a quantidade */
+}
+
+.item-quantidade {
+  color: #555;
+  margin-left: auto; /* Alinha a quantidade à direita */
+}
+
+.atualizar-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.atualizar-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.atualizar-btn:hover {
+  background-color: #0056b3;
+}
